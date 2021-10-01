@@ -26,6 +26,7 @@ public class QRGEncoder {
     private String title = null;
     private BarcodeFormat format = null;
     private boolean encoded = false;
+    private Map<EncodeHintType, Object> encodeHint = null;
 
     public void setColorWhite(int color) {
         this.WHITE = color;
@@ -41,6 +42,10 @@ public class QRGEncoder {
 
     public int getColorBlack() {
         return this.BLACK;
+    }
+
+    public void setEncodeHint(Map<EncodeHintType, Object> encodeHint) {
+        this.encodeHint = encodeHint;
     }
 
     public QRGEncoder(String data, String type) {
@@ -197,10 +202,15 @@ public class QRGEncoder {
         if (!encoded) return null;
         try {
             Map<EncodeHintType, Object> hints = null;
-            String encoding = guessAppropriateEncoding(contents);
-            if (encoding != null) {
-                hints = new EnumMap<>(EncodeHintType.class);
-                hints.put(EncodeHintType.CHARACTER_SET, encoding);
+            if (encodeHint != null) {
+                // user overrided encode hints
+                hints = encodeHint;
+            } else {
+                String encoding = guessAppropriateEncoding(contents);
+                if (encoding != null) {
+                    hints = new EnumMap<>(EncodeHintType.class);
+                    hints.put(EncodeHintType.CHARACTER_SET, encoding);
+                }
             }
             MultiFormatWriter writer = new MultiFormatWriter();
             BitMatrix result = writer.encode(contents, format, dimension, dimension, hints);
