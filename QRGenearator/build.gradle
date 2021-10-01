@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 group = 'androidmads.library.qrgenearator' // Change this to match your package name
 version = '1.0.4' // Change this to match your version number
@@ -14,6 +15,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = group
+                    artifactId = 'library'
+                    version = version
+                }
+            }
         }
     }
 }
