@@ -1,25 +1,47 @@
 # QRGenerator
-QR Generator Library and Saves the QR Code as Image
 
-### Featured In:
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-QRGenerator-green.svg?style=true)](https://android-arsenal.com/details/1/3890)
+QR Generator Library
+
+[![](https://jitpack.io/v/spezifisch/QRGenerator.svg)](https://jitpack.io/#spezifisch/QRGenerator)
+
 ### How to Import the Library:
-<b>Gradle:</b>
+
+**Gradle:**
 ```groovy
-implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+implementation 'com.github.spezifisch:QRGenerator:-SNAPSHOT'
 implementation 'com.google.zxing:core:3.3.2'
 ```
 
-### Whats New in 1.0.4:
+### Changelog
+
+#### Fork
+
+Added possibility to use custom [EncodeHints for zxing](https://zxing.github.io/zxing/apidocs/com/google/zxing/EncodeHintType.html) so you can specify margin size, charset or error correction degree for the generated QR code.
+
+Kotlin example:
+
+```kt
+// smaller border around QR code
+val hints = EnumMap<EncodeHintType, Any>(EncodeHintType::class.java)
+hints[EncodeHintType.MARGIN] = 2
+
+val qrgEncoder = QRGEncoder(inputValue, null, QRGContents.Type.TEXT, smallerDimension)
+qrgEncoder.setEncodeHint(hints)
+```
+
+#### Whats New in 1.0.4
+
 1. QR code color can be changed dynamically
 2. Android X support is included
 3. Minimum support from version 14 is included
 
 ### Permission:
+
 Add This Permission for saving your generated code
 ```xml
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
+
 ### How to use this Library:
 After importing this library, use the following lines to use this library.
 The following lines are used to generated the QR Code
@@ -45,7 +67,7 @@ QRGSaver qrgSaver = new QRGSaver();
 qrgSaver.save(savePath, edtValue.getText().toString().trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
 ```
 
-For more Details [Click Here](https://github.com/androidmads/QRGenerator/blob/master/app/src/main/java/androidmads/example/MainActivity.java)
+For more Details [Click Here](https://github.com/spezifisch/QRGenerator/blob/master/app/src/main/java/androidmads/example/MainActivity.java)
 
 # License:
 ```
